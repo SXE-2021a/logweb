@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem id="main_logweb" name="Antonio Crespo" />
+    <menuitem id="autenticacions_menu" name="Intentos de Acceso por IP" parent="main_logweb" action="autenticacions_list_action"/>
+    <menuitem id="autenticacions_menu_graficas" name="Gráficas" parent="main_logweb" action="autenticacions_graficaIP_action"/>
+    <menuitem id="autenticacions_menuIP" name="Gráfica por IP" parent="autenticacions_menu_graficas" action="autenticacions_graficaIP_action"/>
+    <menuitem id="autenticacions_menupais" name="Gráfica por Pais" parent="autenticacions_menu_graficas" action="autenticacions_graficaPais_action"/>
+</odoo>

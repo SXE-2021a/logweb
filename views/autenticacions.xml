@@ -1,0 +1,131 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="autenticacions_list_action">
+            <field name="name">Antonio Crespo</field><!--O que se visualiza na parte superior esquerda-->
+            <field name="res_model">logweb.autenticacions</field>
+            <field name="context">{'custom_search': True}</field>
+            <field name="view_mode">list</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Tes que crear o primeiro rexistro</p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="autenticacions_list_view">
+            <field name="name">autenticacions.list</field>
+            <field name="model">logweb.autenticacions</field>
+            <field name="arch" type="xml">
+                <list editable="top" decoration-danger="intentosDeAcceso &gt; 50"
+                      decoration-warning="(intentosDeAcceso &gt; 9)"
+                      decoration-success="intentosDeAcceso &gt; 0">
+                    <field name="continente"/>
+                    <field name="pais"/>
+                    <field name="ip"/>
+                    <field name="intentosDeAcceso"/>
+                    <field name="cantidade"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="autenticacions_graph_view_ip">
+            <field name="name">autenticacions.graphIP</field>
+            <field name="model">logweb.autenticacions</field>
+            <field name="arch" type="xml">
+                <graph type="bar">
+                    <field name="ip" type="row"/>
+                </graph>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="autenticacions_graph_view_pais">
+            <field name="name">autenticacions.graphPais</field>
+            <field name="model">logweb.autenticacions</field>
+            <field name="arch" type="xml">
+                <graph type="bar">
+                    <field name="pais" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="autenticacions_graficaIP_action">
+            <field name="name">Gráfica por IP</field><!--O que se visualiza na parte superior esquerda-->
+            <field name="res_model">logweb.autenticacions</field>
+            <field name="context">{'custom_search': True}</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="autenticacions_graph_view_ip"/>
+        </record>
+        <record model="ir.actions.act_window" id="autenticacions_graficaPais_action">
+            <field name="name">Gráfica por pais</field><!--O que se visualiza na parte superior esquerda-->
+            <field name="res_model">logweb.autenticacions</field>
+            <field name="context">{'custom_search': True}</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="autenticacions_graph_view_pais"/>
+        </record>
+
+
+        <record model="ir.ui.view" id="autenticacions_search_view">
+            <field name="name">autenticacions.search</field>
+            <field name="model">logweb.autenticacions</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="continente"/>
+                    <field name="pais"/>
+                    <field name="ip"/>
+                    <field name="intentosDeAcceso"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.filters" id="agrupado_por_continente">
+            <field name="name">Agrupado por continente</field>
+            <field name="model_id">logweb.autenticacions</field>
+            <field name="context">{'group_by': ['continente']}</field>
+            <field name="is_default">false</field>
+            <field name="active">true</field>
+            <field name="sort">[]</field>
+            <field name="domain">[]</field><!-- Aquí iría o filtro -->
+            <field name="user_id"></field><!-- En blanco para que esté dispoñible para todos os usuarios -->
+            <!--            <field name="action_id"--> <!-- Se o quixesemos para unha acción só non para todas as do modelo -->
+            <!--                   eval="ref('logweb.autenticacions_graficaIP_action')"/>&lt;!&ndash; Obter o id a partir do id externo&ndash;&gt;-->
+        </record>
+
+        <record model="ir.filters" id="agrupado_por_pais">
+            <field name="name">Agrupado por pais</field>
+            <field name="model_id">logweb.autenticacions</field>
+            <field name="context">{'group_by': ['pais']}</field>
+            <field name="is_default">false</field>
+            <field name="active">true</field>
+            <field name="sort">[]</field>
+            <field name="domain">[]</field><!-- Aquí iría o filtro -->
+            <field name="user_id"></field><!-- En blanco para que esté dispoñible para todos os usuarios -->
+            <!--            <field name="action_id"--> <!-- Se o quixesemos para unha acción só non para todas as do modelo -->
+            <!--                   eval="ref('logweb.autenticacions_graficaIP_action')"/>&lt;!&ndash; Obter o id a partir do id externo&ndash;&gt;-->
+        </record>
+
+        <record model="ir.filters" id="filtro_por_intentos_maior_a_100">
+            <field name="name">Filtro intentos de acceso maior a 100</field>
+            <field name="model_id">logweb.autenticacions</field>
+            <field name="context">{}</field>
+            <field name="is_default">true</field>
+            <field name="active">true</field>
+            <field name="sort">[]</field>
+            <field name="domain">[('intentosDeAcceso', '>', '100')]
+            </field><!-- Aquí iría o filtro -->
+            <field name="user_id"></field><!-- En blanco para que esté dispoñible para todos os usuarios -->
+            <field name="action_id"
+                   eval="ref('logweb.autenticacions_list_action')"/><!-- Obter o id a partir do id externo-->
+        </record>
+        <record model="ir.filters" id="filtro_por_oceania_ou_intentos_maior_a_200">
+            <field name="name">Filtro por_oceania_ou_intentos_maior_a_200</field>
+            <field name="model_id">logweb.autenticacions</field>
+            <field name="context">{}</field>
+            <field name="is_default">false</field>
+            <field name="active">true</field>
+            <field name="sort">[]</field>
+            <field name="domain">['|',('continente', '=', 'Oceania'),('intentosDeAcceso', '>', '200')]
+            </field><!-- Aquí iría o filtro -->
+            <field name="user_id"></field><!-- En blanco para que esté dispoñible para todos os usuarios -->
+            <field name="action_id"
+                   eval="ref('logweb.autenticacions_list_action')"/><!-- Obter o id a partir do id externo-->
+        </record>
+
+    </data>
+</odoo>
