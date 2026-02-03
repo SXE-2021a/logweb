@@ -25,6 +25,7 @@
     # always loaded
     'data': [
         'views/autenticacions.xml',
+        'accions_servidor/cargaIPs.xml',
         'views/templates.xml',
         'views/menu.xml',
         'security/ir.model.access.csv',

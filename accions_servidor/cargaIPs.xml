@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record model="ir.actions.server" id="autenticacions_action_server">
+            <field name="name">Importar Rexistros</field>
+            <field name="model_id" ref="model_logweb_autenticacions"/>
+            <field name="state">code</field>
+            <field name="code">action = model.cargaIps()</field>
+            <field name="binding_model_id" ref="model_logweb_autenticacions"/>
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>

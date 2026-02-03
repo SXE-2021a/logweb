@@ -4,4 +4,5 @@
     <menuitem id="autenticacions_menu_graficas" name="Gráficas" parent="main_logweb" action="autenticacions_graficaIP_action"/>
     <menuitem id="autenticacions_menuIP" name="Gráfica por IP" parent="autenticacions_menu_graficas" action="autenticacions_graficaIP_action"/>
     <menuitem id="autenticacions_menupais" name="Gráfica por Pais" parent="autenticacions_menu_graficas" action="autenticacions_graficaPais_action"/>
+    <menuitem id="autenticacions_menu_importarIPs" name="Importar IPs" parent="main_logweb" action="autenticacions_action_server"/>
 </odoo>

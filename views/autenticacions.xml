@@ -10,6 +10,8 @@
             </field>
         </record>
 
+
+
         <record model="ir.ui.view" id="autenticacions_list_view">
             <field name="name">autenticacions.list</field>
             <field name="model">logweb.autenticacions</field>
