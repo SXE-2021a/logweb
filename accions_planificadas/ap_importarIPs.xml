@@ -9,7 +9,7 @@
             <field name="interval_type">days</field>
         <!--  odoo18     <field name="numbercall">-1</field> --><!--  An integer value specifying how many times the job is executed. A negative value means no limit.-->
             <!--<field name="function">True</field>Odoo Version 12 -->
-            <!--<field name="model_id" ref="model_account_invoice" />  Odoo Version 12 -->
+            <!--<field name="model_id" ref="model_account_invoice" />  Odoo  Version 12 -->
             <field name="model_id" ref="model_logweb_autenticacions" />  <!-- Odoo Version 13 -->
             <field name="state">code</field>
             <field name="code">model.cargaIps()</field>
