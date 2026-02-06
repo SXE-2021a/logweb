@@ -26,6 +26,7 @@
     'data': [
         'views/autenticacions.xml',
         'accions_servidor/cargaIPs.xml',
+        'accions_planificadas/ap_importarIPs.xml',
         'views/templates.xml',
         'views/menu.xml',
         'security/ir.model.access.csv',
