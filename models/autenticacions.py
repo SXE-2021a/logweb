@@ -98,6 +98,32 @@ class autenticacions(models.Model):
                         continue  # Liñas sen data
         self.env['ir.config_parameter'].sudo().set_param('logweb.dataUltimoProcesoAuthLog', dataDeOnte)
 
+    def email_ranking(self):
+        usuario_que_executa_o_metodo_que_e_o_definido_no_xml = self.env.user
+        usuario_administrador = self.env['res.partner'].search([('id', '=', 3)])[0]
+        agora = miñasUtilidades.convirte_data_hora_de_utc_a_timezone_do_usuario(fields.Datetime.now(),usuario_administrador.tz)
+        resultadoSUM = self.env['logweb.autenticacions'].read_group(domain=[],fields=['intentosDeAcceso:sum'],groupby=[])
+        if resultadoSUM:
+           total_intentosDeAcceso = resultadoSUM[0]['intentosDeAcceso']
+        else:
+           total_intentosDeAcceso = 0
+        as_5_IPs = self.env['logweb.autenticacions'].search([], order='intentosDeAcceso desc', limit=5)
+        if as_5_IPs:
+            listado = ""
+            for rexistro in as_5_IPs:
+                listado = listado + "<br/>" + "[ IP: " + str(rexistro.ip) + " ][ Intentos de Acceso: " + str(rexistro.intentosDeAcceso) + " ][ Continente: " + str(rexistro.continente) + " ][ Pais: " + str(rexistro.pais) +" ]"
+            mail_reply_to = usuario_que_executa_o_metodo_que_e_o_definido_no_xml.partner_id.email  # odoobot@example.com
+            mail_para = usuario_administrador.email  # o enderezo email de destino
+            mail_valores = {
+                'subject': "Ranking de intentos de acceso neste momento %s" % agora,
+                'author_id': usuario_que_executa_o_metodo_que_e_o_definido_no_xml.id,
+                'email_from': mail_reply_to,
+                'email_to': mail_para,
+                'message_type': 'email',
+                'body_html': "Neste momento %s temos %s intentos de acceso  %s" % (agora,total_intentosDeAcceso, str(listado)),
+            }
+            mail_id = self.env['mail.mail'].create(mail_valores)
+            mail_id.send()
     # temos que dar permiso de lectura ao ficheiro /var/log/auth.log "chmod 644 /var/log/auth.log"
     # temos que gravar manualmente en ir.config_parameter un rexistro 'logweb.tokenParaIpinfo' co token que temos de IPinfo
     # temos que ter permiso de escritura na ruta para o LogDeSaida

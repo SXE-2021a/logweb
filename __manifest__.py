@@ -27,6 +27,7 @@
         'views/autenticacions.xml',
         'accions_servidor/cargaIPs.xml',
         'accions_planificadas/ap_importarIPs.xml',
+        'accions_planificadas/envio_email.xml',
         'views/templates.xml',
         'views/menu.xml',
         'security/ir.model.access.csv',
