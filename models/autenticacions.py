@@ -26,12 +26,12 @@ class autenticacions(models.Model):
     @api.depends('intentosDeAcceso')
     def _cantidade(self):
         for rexistro in self:
-            if rexistro.intentosDeAcceso > 50:
-                rexistro.cantidade = "Máis de 50"
-            elif rexistro.intentosDeAcceso > 9:
-                rexistro.cantidade = "Entre 50 e 10"
+            if rexistro.intentosDeAcceso > 500:
+                rexistro.cantidade = "Máis de 500"
+            elif rexistro.intentosDeAcceso > 99:
+                rexistro.cantidade = "Entre 500 e 100"
             else:
-                rexistro.cantidade = "Menos de 10"
+                rexistro.cantidade = "Menos de 100"
 
     def consultaNaWebIpinfo(self, ip):
         tokenGardadoNaBD = self.env['ir.config_parameter'].sudo().get_param('logweb.tokenParaIpinfo')
