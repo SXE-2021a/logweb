@@ -56,8 +56,8 @@ class autenticacions(models.Model):
             self.env['ir.config_parameter'].sudo().get_param('logweb.dataUltimoProcesoAuthLog',
                                                              dataInicialUltimoProceso))
         dataDeOnte = fields.Date.today() - relativedelta(days=1)
-        logfile = "/home/antonio/PycharmProjects/logweb/static/auth.log"
-        #    logfile = "/var/log/auth.log"
+        #logfile = "/home/antonio/PycharmProjects/logweb/static/auth.log"
+        logfile = "/var/log/auth.log"
         with open(logfile, "r", encoding="utf-8") as f:
             for line in f:
                 if " from " in line:
