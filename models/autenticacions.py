@@ -15,8 +15,6 @@ class autenticacions(models.Model):
     _description = 'autenticacions en GNU/Linux'
     _order = "continente,pais,ip asc"
 
-    # name = fields.Char()
-   # quenda = fields.Selection([('Ordinario', 'Ordinario'), ('Vespertino', 'Vespertino'), ('FPDual', 'FPDual')], string='Quenda')
     continente = fields.Char(required=True, size=25, string="Continente")
     pais = fields.Char(required=True, size=25, string="País")
     ip = fields.Char(required=True, size=15, string="IP")
