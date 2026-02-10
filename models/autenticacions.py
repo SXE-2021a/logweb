@@ -50,8 +50,7 @@ class autenticacions(models.Model):
         rutaWindowsParaLogDeSaida = 'c:\\users\\antonio\\logs'
         rutaGNULinuxParaLogDeSaida = '/home/antonio/logs'
         dataInicialUltimoProceso = '2000-01-01'
-        dataUltimoProceso = fields.Date.from_string(
-            self.env['ir.config_parameter'].sudo().get_param('logweb.dataUltimoProcesoAuthLog',
+        dataUltimoProceso = fields.Date.from_string(self.env['ir.config_parameter'].sudo().get_param('logweb.dataUltimoProcesoAuthLog',
                                                              dataInicialUltimoProceso))
         dataDeOnte = fields.Date.today() - relativedelta(days=1)
         #logfile = "/home/antonio/PycharmProjects/logweb/static/auth.log"
@@ -107,7 +106,7 @@ class autenticacions(models.Model):
            total_intentosDeAcceso = 0
         as_5_IPs = self.env['logweb.autenticacions'].search([], order='intentosDeAcceso desc', limit=5)
         if as_5_IPs:
-            listado = ""
+            listado = "<br/>"
             for rexistro in as_5_IPs:
                 listado = listado + "<br/>" + "[ IP: " + str(rexistro.ip) + " ][ Intentos de Acceso: " + str(rexistro.intentosDeAcceso) + " ][ Continente: " + str(rexistro.continente) + " ][ Pais: " + str(rexistro.pais) +" ]"
             mail_reply_to = usuario_que_executa_o_metodo_que_e_o_definido_no_xml.partner_id.email  # odoobot@example.com
