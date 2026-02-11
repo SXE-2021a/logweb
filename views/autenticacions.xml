@@ -52,7 +52,7 @@
             <field name="arch" type="xml">
                 <pivot string="pivotando">
                     <field name="ip" type="row"/>
-                    <field name="pais" type="col"/>
+                    <field name="continente" type="col"/>
                     <field name="intentosDeAcceso" type="measure"/>
                 </pivot>
             </field>
