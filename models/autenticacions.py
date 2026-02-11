@@ -8,6 +8,9 @@ import ipaddress
 import requests
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
+import shutil
+import os
+
 
 
 class autenticacions(models.Model):
@@ -47,15 +50,19 @@ class autenticacions(models.Model):
             return {}
 
     def cargaIps(self):
-        rutaWindowsParaLogDeSaida = 'c:\\users\\antonio\\logs'
-        rutaGNULinuxParaLogDeSaida = '/home/antonio/logs'
+        rutaWindowsParaLogs = 'c:\\users\\antonio\\logs'
+        rutaGNULinuxParaLogs = '/home/antonio/logs'
         dataInicialUltimoProceso = '2000-01-01'
         dataUltimoProceso = fields.Date.from_string(self.env['ir.config_parameter'].sudo().get_param('logweb.dataUltimoProcesoAuthLog',
                                                              dataInicialUltimoProceso))
         dataDeOnte = fields.Date.today() - relativedelta(days=1)
+        # Copiamos ao noso directorio o ficherio de log que queremos procesar
         #logfile = "/home/antonio/PycharmProjects/logweb/static/auth.log"
         logfile = "/var/log/auth.log"
-        with open(logfile, "r", encoding="utf-8") as f:
+        logAimportar = os.path.join(miñasUtilidades.cadeaTextoSegunPlataforma(rutaWindowsParaLogs,rutaGNULinuxParaLogs), 'logAImportar.txt')
+        shutil.copy2(logfile,logAimportar)
+        ######################################################################
+        with open(logAimportar, "r", encoding="utf-8") as f:
             for line in f:
                 if " from " in line:
                     try:
@@ -85,9 +92,9 @@ class autenticacions(models.Model):
                                                 miñasUtilidades.convirte_data_hora_de_utc_a_timezone_do_usuario(
                                                     fields.Datetime.now(),
                                                     self.env.user.tz or 'UTC').strftime("%Y/%m/%d, %H:%M:%S"),
-                                                miñasUtilidades.cadeaTextoSegunPlataforma(rutaWindowsParaLogDeSaida,
-                                                                                          rutaGNULinuxParaLogDeSaida),
-                                                "logIPs.log",
+                                                miñasUtilidades.cadeaTextoSegunPlataforma(rutaWindowsParaLogs,
+                                                                                          rutaGNULinuxParaLogs),
+                                                "logIPsImportadas.log",
                                                 " Alta Ip: " + str(ipNaLiña))
                                 except ValueError:
                                     continue
@@ -112,7 +119,7 @@ class autenticacions(models.Model):
             mail_reply_to = usuario_que_executa_o_metodo_que_e_o_definido_no_xml.partner_id.email  # odoobot@example.com
             mail_para = usuario_administrador.email  # o enderezo email de destino
             mail_valores = {
-                'subject': "Ranking de intentos de acceso neste momento %s" % agora,
+                'subject': "Ranking de intentos de acceso neste momento %s na compañía %s" % (agora, self.env.company.name),
                 'author_id': usuario_que_executa_o_metodo_que_e_o_definido_no_xml.id,
                 'email_from': mail_reply_to,
                 'email_to': mail_para,
