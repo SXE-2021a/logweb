@@ -11,7 +11,6 @@
         </record>
 
 
-
         <record model="ir.ui.view" id="autenticacions_list_view">
             <field name="name">autenticacions.list</field>
             <field name="model">logweb.autenticacions</field>
@@ -47,6 +46,18 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="autenticacions_pivot_view">
+            <field name="name">autenticacions.pivot</field>
+            <field name="model">logweb.autenticacions</field>
+            <field name="arch" type="xml">
+                <pivot string="pivotando">
+                    <field name="ip" type="row"/>
+                    <field name="pais" type="col"/>
+                    <field name="intentosDeAcceso" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="autenticacions_graficaIP_action">
             <field name="name">Gráfica por IP</field><!--O que se visualiza na parte superior esquerda-->
             <field name="res_model">logweb.autenticacions</field>
@@ -61,7 +72,13 @@
             <field name="view_mode">graph</field>
             <field name="view_id" ref="autenticacions_graph_view_pais"/>
         </record>
-
+        <record model="ir.actions.act_window" id="autenticacions_pivot_action">
+            <field name="name">Vista Pivot</field><!--O que se visualiza na parte superior esquerda-->
+            <field name="res_model">logweb.autenticacions</field>
+            <field name="context">{'custom_search': True}</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="autenticacions_pivot_view"/>
+        </record>
 
         <record model="ir.ui.view" id="autenticacions_search_view">
             <field name="name">autenticacions.search</field>
