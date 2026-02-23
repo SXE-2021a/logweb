@@ -111,6 +111,11 @@ class autenticacions(models.Model):
            total_intentosDeAcceso = resultadoSUM[0]['intentosDeAcceso']
         else:
            total_intentosDeAcceso = 0
+        resultadoCOUNT = self.env['logweb.autenticacions'].read_group(domain=[], fields=['ip:count'], groupby=[])
+        if resultadoCOUNT:
+           total_IPs = resultadoCOUNT[0]['ip']
+        else:
+            total_IPs = 0
         as_5_IPs = self.env['logweb.autenticacions'].search([], order='intentosDeAcceso desc', limit=5)
         if as_5_IPs:
             listado = "<br/>"
@@ -124,7 +129,7 @@ class autenticacions(models.Model):
                 'email_from': mail_reply_to,
                 'email_to': mail_para,
                 'message_type': 'email',
-                'body_html': "Neste momento %s temos %s intentos de acceso  %s" % (agora,total_intentosDeAcceso, str(listado)),
+                'body_html': "Neste momento %s temos %s IPs cun total de %s intentos de acceso  %s" % (agora,total_IPs,total_intentosDeAcceso, str(listado)),
             }
             mail_id = self.env['mail.mail'].create(mail_valores)
             mail_id.send()
