@@ -133,6 +133,6 @@ class autenticacions(models.Model):
             }
             mail_id = self.env['mail.mail'].create(mail_valores)
             mail_id.send()
-    # temos que dar permiso de lectura ao ficheiro /var/log/auth.log "chmod 644 /var/log/auth.log"
+    # Temos que ter permiso de lectura no ficheiro /var/log/auth.log  O mellor é meter ao usuario odoo no grupo adm (e así terá  permisos de lectura sobre os arquivos de log) usermod -aG adm odoo
     # temos que gravar manualmente en ir.config_parameter un rexistro 'logweb.tokenParaIpinfo' co token que temos de IPinfo
     # temos que ter permiso de escritura na ruta para o LogDeSaida
